@@ -1,0 +1,38 @@
+services:
+
+  wordpress:
+    image: frankenphp/bedrock_wordpress
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      DB_HOST: db
+      DB_USER: exampleuser
+      DB_PASSWORD: examplepass
+      DB_NAME: exampledb
+      WP_ENV: development
+      WP_HOME: https://localhost
+      WP_SITEURL: https://localhost/wp
+    volumes:
+      - ./:/app/
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db:
