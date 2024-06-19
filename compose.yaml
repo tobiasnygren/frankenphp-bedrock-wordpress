@@ -7,16 +7,16 @@ services:
       dockerfile: ./docker/Dockerfile
     restart: always
     ports:
-      - 80:80
-      - 443:443
+      - 8111:80
+      #- 443:443
     environment:
       DB_HOST: db
       DB_USER: exampleuser
       DB_PASSWORD: examplepass
       DB_NAME: exampledb
       WP_ENV: development
-      WP_HOME: https://localhost
-      WP_SITEURL: https://localhost/wp
+      WP_HOME: http://localhost:8111
+      WP_SITEURL: http://localhost:8111/wp
     volumes:
       - ./:/app/
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
